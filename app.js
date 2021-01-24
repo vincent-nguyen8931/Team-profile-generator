@@ -10,8 +10,9 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
+let selectedEmployees = [];
+
+// Questions that asks for manager's information
 const initialQuestions = [
   {
     type: 'input',
@@ -32,10 +33,10 @@ const initialQuestions = [
     type: 'input',
     message: 'Team manager\'s office number: ',
     name: 'managerOfficeNumber',
-  },
- 
+  }
 ];
 
+// Questions that asks for engineer's information
 const engineerQuestions = [
   {
     type: 'input',
@@ -59,6 +60,7 @@ const engineerQuestions = [
   }
 ];
 
+// Questions that asks for intern's information
 const internQuestions = [
   {
     type: 'input',
@@ -82,48 +84,53 @@ const internQuestions = [
   }
 ];
 
-const callChooseEmployee = () => 
+// Gives user a list of options to choose from when adding an employee. This will loop continually until "Finish adding" is selected. Each iteration will push the information onto an array.
+const callChooseEmployee = () =>
   inquirer.prompt([
-{
-  type: 'list',
-  message: 'Which member would you like to add?',
-  choices: ["Engineer", "Intern", "Finish adding"],
-  name: 'teamAdd',
-}
-]).then((response) => {
-  // while (response.teamAdd !== "Finish adding"){
-    
-    if (response.teamAdd === "Engineer"){
-      inquirer.prompt(engineerQuestions).then(() => {
+    {
+      type: 'list',
+      message: 'Which member would you like to add?',
+      choices: ["Engineer", "Intern", "Finish adding"],
+      name: 'teamAdd',
+    }
+  ]).then(response => {
+    if (response.teamAdd === "Engineer") {
+      inquirer.prompt(engineerQuestions).then(res => {
+      const engineer = new Engineer(res.engineerName, res.engineerID, res.engineerEmail, res.engineerGithub)
+        selectedEmployees.push(engineer);
+        console.log(selectedEmployees);
         callChooseEmployee();
       })
     }
-    if (response.teamAdd === "Intern"){
-      inquirer.prompt(internQuestions).then(() => {
+    if (response.teamAdd === "Intern") {
+      inquirer.prompt(internQuestions).then(res => {
+        const intern = new Intern(res.internName, res.internID, res.internEmail, res.internSchool)
+        selectedEmployees.push(intern);
+        console.log(selectedEmployees);
         callChooseEmployee();
       })
     }
     if (response.teamAdd === "Finish adding") {
-      console.log("Loop test successful.")
+      render(selectedEmployees);
+      fs.writeFile(outputPath);
       return;
     }
-  // }
-}
-)
+  });
 
-inquirer.prompt(initialQuestions)
-.then(() => {
-  callChooseEmployee()
-}
-);
-
-
+  inquirer.prompt(initialQuestions)
+     .then(res => {
+       const manager = new Manager(res.managerName, res.managerID, res.managerEmail, res.managerOfficeNumber)
+      selectedEmployees.push(manager);
+     console.log(selectedEmployees);
+      callChooseEmployee()
+    })
+  
 
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
-// render();
+
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
 // `output` folder. You can use the variable `outputPath` above target this location.
