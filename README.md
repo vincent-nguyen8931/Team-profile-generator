@@ -1,11 +1,11 @@
 # Team-profile-generator
 
-![image](Readme-generator-image.png)
+![image](Team-profile-generator-image.png)
 
 Description
 ------------
 
-Readme generator creates a template to help in creating your very own readme without having to start one from scratch. Comes with numerous sections to allow for information you want to utilize and the ability to place in your own contact information. 
+Team profile generator creates a template that will fill out your team's profile with a manager, multiple engineers, and interns.
 
  Table of contents
 ---------------
@@ -28,7 +28,7 @@ Demo link
 -------------
 
 Below is the link to the video demonstration the working application. <br />
-[Link to video](https://drive.google.com/file/d/1X3lljajawO0TMd6CpGLV6tsyacFxenY1/view)
+[Link to video](https://drive.google.com/file/d/1jbg_wRvVA1UQTalWu_Q6XnNNQ9cYC279/view?usp=sharing)
 
 
 Features
