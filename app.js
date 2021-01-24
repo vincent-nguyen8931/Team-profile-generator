@@ -85,7 +85,7 @@ const internQuestions = [
 ];
 
 // Gives user a list of options to choose from when adding an employee. This will loop continually until "Finish adding" is selected. Each iteration will push the information onto an array.
-const callChooseEmployee = () =>
+const callChooseEmployee = () => {
   inquirer.prompt([
     {
       type: 'list',
@@ -96,7 +96,7 @@ const callChooseEmployee = () =>
   ]).then(response => {
     if (response.teamAdd === "Engineer") {
       inquirer.prompt(engineerQuestions).then(res => {
-      const engineer = new Engineer(res.engineerName, res.engineerID, res.engineerEmail, res.engineerGithub)
+        const engineer = new Engineer(res.engineerName, res.engineerID, res.engineerEmail, res.engineerGithub)
         selectedEmployees.push(engineer);
         console.log(selectedEmployees);
         callChooseEmployee();
@@ -112,19 +112,22 @@ const callChooseEmployee = () =>
     }
     if (response.teamAdd === "Finish adding") {
       render(selectedEmployees);
-      fs.writeFile(outputPath);
-      return;
-    }
+      fs.writeFile(outputPath, (err) => {
+        if (err) throw err;
+        return;
+      });
+    };
+  });
+};
+
+inquirer.prompt(initialQuestions)
+  .then(res => {
+    const manager = new Manager(res.managerName, res.managerID, res.managerEmail, res.managerOfficeNumber);
+    selectedEmployees.push(manager);
+    console.log(selectedEmployees);
+    callChooseEmployee()
   });
 
-  inquirer.prompt(initialQuestions)
-     .then(res => {
-       const manager = new Manager(res.managerName, res.managerID, res.managerEmail, res.managerOfficeNumber)
-      selectedEmployees.push(manager);
-     console.log(selectedEmployees);
-      callChooseEmployee()
-    })
-  
 
 
 // After the user has input all employees desired, call the `render` function (required
@@ -145,4 +148,4 @@ const callChooseEmployee = () =>
 // and Intern classes should all extend from a class named Employee; see the directions
 // for further information. Be sure to test out each class and verify it generates an
 // object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
+// for the provided `render` function to work
