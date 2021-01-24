@@ -20,7 +20,8 @@ Tools used
 
 * GitBash - Assist with version control via commits, push, and pull to and from GitHub.
 * GitHub - Site where the repository lies for deployment and edits.
-* Inquirer - Allows prompting user for various information to fill out precreated readme sections.
+* HTML - Displays the collected information from the app.js in a nice tile layout
+* Inquirer - Allows prompting user for various information to fill out precreated team member sections.
 * Node.js - Build the template and all functions in application. 
 * VS Code - Application used to write and edit code for the application.
 
