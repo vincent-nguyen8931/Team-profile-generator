@@ -111,10 +111,9 @@ const callChooseEmployee = () => {
       })
     }
     if (response.teamAdd === "Finish adding") {
-      render(selectedEmployees);
-      fs.writeFile(outputPath, (err) => {
+      fs.writeFile(outputPath, render(selectedEmployees), (err) => {
         if (err) throw err;
-        return;
+        console.log("File wrote successful!");
       });
     };
   });
